@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float sprintSpeed = 8;
 
     bool isSprinting = false;
-    bool wasSprinting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,15 +36,9 @@ public class PlayerMovement : MonoBehaviour
     {
         float currentSpeed = speed;
 
-        if (isSprinting && !wasSprinting)
-        {
-            ReduceStamina(sprintStaminaCost);
-        }
-
-        wasSprinting = isSprinting;
-
         if (isSprinting)
         {
+            ReduceStamina(sprintStaminaCost * Time.deltaTime);
             currentSpeed = isSprinting ? sprintSpeed : speed;
         }
         else
@@ -54,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         MovePlayer(currentSpeed);
-        print(currentSpeed);
     }
 
     private void OnDestroy()
@@ -77,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 direction = moveAction.ReadValue<Vector2>();
         transform.position += new Vector3(direction.x, 0, direction.y) * currentSpeed * Time.deltaTime;
+        print(currentStamina);
     }
 
     public void ReduceStamina(float amount)
