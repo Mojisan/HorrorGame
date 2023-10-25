@@ -799,7 +799,7 @@ Transform:
   m_GameObject: {fileID: 578818480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.93122286, z: 0, w: 0.36445037}
-  m_LocalPosition: {x: 344.49, y: 1.49, z: -546.34}
+  m_LocalPosition: {x: 344.27, y: 1.49, z: -546.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -850,7 +850,7 @@ MonoBehaviour:
   navAgent: {fileID: 578818486}
   PatrolPoints:
   - {fileID: 1437846225}
-  - {fileID: 2112021278}
+  - {fileID: 0}
   - {fileID: 1572029560}
   - {fileID: 374638547}
   - {fileID: 1667720334}
@@ -1081,7 +1081,7 @@ Transform:
   m_GameObject: {fileID: 777128595}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 344.38, y: 32.34, z: -556.2}
+  m_LocalPosition: {x: 344.4, y: 28.12, z: -556.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1206,6 +1206,7 @@ GameObject:
   - component: {fileID: 902422670}
   - component: {fileID: 902422676}
   - component: {fileID: 902422677}
+  - component: {fileID: 902422678}
   m_Layer: 6
   m_Name: Capsule
   m_TagString: Player
@@ -1295,7 +1296,7 @@ Transform:
   m_GameObject: {fileID: 902422668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 350.84, y: 1.74, z: -553.21}
+  m_LocalPosition: {x: 346.13, y: 3.59, z: -558.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1310,9 +1311,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 902422668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da8d0a76e36ad374eb0ced3ebef75d7c, type: 3}
+  m_Script: {fileID: 11500000, guid: 421edb3756d55c945b356bff68e42431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxStamina: 100
+  currentStamina: 0
+  staminaRegenRate: 2
+  sprintStaminaCost: 10
+  speed: 5
+  sprintSpeed: 8
+  jumpForce: 8
 --- !u!54 &902422677
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1340,6 +1348,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &902422678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902422668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 79f3ff6af888d694fb9621e1b334f7f8, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Movement
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1159985063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,7 +2419,7 @@ GameObject:
   - component: {fileID: 1830953646}
   m_Layer: 5
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
