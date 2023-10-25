@@ -106,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
         currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina);
     }
 
+
     void OnCollisionEnter(Collision hit)
     {
         if (hit.gameObject.CompareTag("Ground"))
@@ -122,4 +123,5 @@ public class PlayerMovement : MonoBehaviour
     {
         isOnGround = false;
     }
+
 }
