@@ -11,16 +11,16 @@ public class AIEnemy : MonoBehaviour
     public float viewAngle = 90f; // มุมของ Field of View
     public bool playerDetected = false; // สถานะการตรวจพบ Player
     public Transform eye; // Transform ที่แทนตาของ Enemy
-    public LayerMask visionLayer; // ใส่ Layer ของ Player และ Layer ของสิ่งกีดขวาง
+    public LayerMask visionObstructingLayer; // ใส่ Layer ของ Player และ Layer ของสิ่งกีดขวาง
 
-    [Header("Patrol")]
-    public NavMeshAgent navAgent; // คอมโพเนนต์สำหรับการเดินของ Enemy
+    [Header("Movement")]
+    public NavMeshAgent navAgent; // ทางเดินของ Enemy
     public List<Transform> PatrolPoints; // จุด Patrol ที่ Enemy จะเดินไป
     public Transform currentPatrol; // จุด Patrol ปัจจุบัน
     public float waitTime = 2.0f; // ระยะเวลาที่ต้องหยุดเดิน
 
     public float chaseSpeed = 5f; // ความเร็วในโหมดการไล่ล่า
-    public float patrolSpeed = 3f; // ความเร็วในโหมดการไล่ล่า
+    public float patrolSpeed = 3f; // ความเร็วในโหมดลาดตะเวน
     public Transform playerTransform; // ตัวแปรที่จะเก็บ Transform ของ Player
 
 
@@ -45,7 +45,7 @@ public class AIEnemy : MonoBehaviour
         else if (!navAgent.pathPending && navAgent.remainingDistance < 0.1f)
         {
             waitTime -= Time.deltaTime;
-            if (waitTime <= 0)
+            if (waitTime <= 0) //ถ้าถึงที่จุด Patrolแล้วให้รอ2วิแล้วก็สุ่มจุด Patrolใหม่
             {
                 PickRandomPatrol();
             }
@@ -57,14 +57,13 @@ public class AIEnemy : MonoBehaviour
             navAgent.isStopped = false; // เริ่มการเดินหากถูกหยุด
         }
 
-        DrawFieldOfView(); // เรียกฟังก์ชัน DrawFieldOfView() เพื่อสร้าง Field of View ในแต่ละเฟรม
+        DrawFieldOfView(); 
     }
 
 
     void DrawFieldOfView()
     {
         Vector3 origin = eye.position; // ตำแหน่งเริ่มต้นของ Field of View ที่ใช้ Transform ของตา
-        playerDetected = false; // เริ่มต้นตั้งค่า playerDetected เป็น false
 
         for (float angle = -viewAngle / 2; angle < viewAngle / 2; angle += 1)
         {
@@ -77,7 +76,7 @@ public class AIEnemy : MonoBehaviour
             RaycastHit ObstructingHit;
 
             // ตรวจสอบการชนของ Ray กับ Layer ของ Obstructing
-            if (Physics.Linecast(origin, end, out ObstructingHit, visionLayer))
+            if (Physics.Linecast(origin, end, out ObstructingHit, visionObstructingLayer))
             {
                 // ถ้าตรวจพบ Obstructing
                 Debug.DrawLine(origin, ObstructingHit.point, Color.red);
@@ -102,18 +101,12 @@ public class AIEnemy : MonoBehaviour
             }
         }
 
-        // ตรวจสอบค่า playerDetected หลังจากที่ลูปเสร็จสิ้น
-        if (!playerDetected)
-        {
-            // กระทำที่ต้องการเมื่อไม่ตรวจพบ Player
-            // สามารถใส่โค้ดที่คุณต้องการให้มันทำที่นี่
-        }
     }
 
 
     void OnDrawGizmos()
     {
-        DrawFieldOfView(); // เรียกฟังก์ชัน DrawFieldOfView() เพื่อสร้าง Field of View ในการดูแบบ Gizmos ในแอดเดร์
+        DrawFieldOfView(); // เรียกฟังก์ชัน DrawFieldOfView() เพื่อสร้างเส้น Field of View ในการดูแบบ Gizmos ในแอดเดร์
     }
 
     void PickRandomPatrol()
