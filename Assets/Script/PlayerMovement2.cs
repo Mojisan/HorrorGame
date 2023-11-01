@@ -21,6 +21,7 @@ public class PlayerMovement2 : MonoBehaviour
     private bool isGrounded = true;
     private bool isSprinting = false;
 
+    private float collisionDistance = 0.3f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -60,7 +61,12 @@ public class PlayerMovement2 : MonoBehaviour
 
         Vector3 moveDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
         Vector3 movement = moveDirection * currentSpeed * Time.deltaTime;
-        rb.MovePosition(transform.position + movement);
+
+        RaycastHit hit;
+        if (!Physics.Raycast(transform.position, movement, out hit, collisionDistance))
+        {
+            rb.MovePosition(transform.position + movement);
+        }
     }
 
     void Jump()
